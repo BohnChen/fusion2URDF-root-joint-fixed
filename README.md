@@ -22,6 +22,13 @@
 - 模型网格在 RViz 中严重错位、各部件相互脱节分离；
 - 导出的旋转轴与实际几何旋转中心严重偏移。
 
+### 修复前后对比 (Before vs After)
+
+| 原版导出 (Double-Lift 导致关节虚假平移、网格散架) | 本仓库修复版 (消除重复变换，关节与几何精准对齐) |
+| :---: | :---: |
+| ![原版导出坐标散架](docs/images/bug-comparison/broken_urdf_scatter.png) | ![修复后正常对齐](docs/images/bug-comparison/fixed_urdf_normal.png) |
+| ❌ 关节原点偏移 0.5~1.1m，各轴悬空解体 | ✅ 关节帧与 CAD 严格重合，轴向残差 < 1.6mm |
+
 ### 修复方案
 我们在 `core/robot_model.py` 的 `_compute_joint_global_origin` 逻辑中引入了自适应判定：
 ```python
